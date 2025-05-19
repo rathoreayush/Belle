@@ -2,6 +2,7 @@ module.exports = {
   presets: ['module:@react-native/babel-preset'],
 
   plugins: [
+    // 1) module-resolver with its own options object
     [
       'module-resolver',
       {
@@ -21,6 +22,8 @@ module.exports = {
         },
       },
     ],
+
+    // 2) react-native-dotenv
     [
       'module:react-native-dotenv',
       {
@@ -32,5 +35,8 @@ module.exports = {
         allowUndefined: true,
       },
     ],
+
+    // 3) react-native-reanimated plugin must come LAST!
+    'react-native-reanimated/plugin',
   ],
 };

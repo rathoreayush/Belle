@@ -42,14 +42,14 @@ const Style = StyleSheet.create({
   title: {
     color: COLORS.white,
     fontFamily: fontsFamily.bold,
-    fontSize: theme.responsive.fontSize(18),
+    fontSize: theme.responsive.fontSize(16),
     fontWeight: '800',
     fontStyle: 'italic',
   },
   subTitle: {
     color: COLORS.white,
     fontFamily: fontsFamily.medium,
-    fontSize: theme.responsive.fontSize(14),
+    fontSize: theme.responsive.fontSize(13),
     fontWeight: '600',
   },
   locationContainer: {
@@ -59,6 +59,7 @@ const Style = StyleSheet.create({
     width: theme.responsive.width(200),
     padding: theme.responsive.padding(5),
     marginLeft: theme.responsive.margin(10),
+    marginRight: theme.responsive.margin(10),
   },
   locationLogo: {
     width: theme.responsive.width(30),
@@ -71,7 +72,7 @@ const Style = StyleSheet.create({
     fontSize: theme.responsive.fontSize(font.SMALL),
   },
   rewardContainer: {
-    width: theme.responsive.width(130),
+    width: theme.responsive.width(120),
     height: theme.responsive.height(70),
     backgroundColor: '#f5a6d4',
     borderRadius: theme.responsive.borderRadius(BORDER_RADIUS.CIRCLE),
@@ -81,7 +82,7 @@ const Style = StyleSheet.create({
   rewardContainerCount: {
     color: COLORS.white,
     fontFamily: fontsFamily.bold,
-    fontSize: theme.responsive.fontSize(17),
+    fontSize: theme.responsive.fontSize(14),
     fontWeight: '800',
   },
   rewardContainerText: {
@@ -132,7 +133,7 @@ const Style = StyleSheet.create({
   actionLabel: {
     color: COLORS.white,
     fontWeight: '700',
-    fontSize: theme.responsive.fontSize(font.SMALL),
+    fontSize: theme.responsive.fontSize(9),
     fontFamily: fontsFamily.semiBold,
     fontStyle: 'italic',
   },
@@ -171,7 +172,7 @@ const Style = StyleSheet.create({
   },
   navLabel: {
     color: COLORS.white,
-    fontSize: theme.responsive.fontSize(10),
+    fontSize: theme.responsive.fontSize(8),
     fontFamily: fontsFamily.regular,
     fontWeight: '600',
   },

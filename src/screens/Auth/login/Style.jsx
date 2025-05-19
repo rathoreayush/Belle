@@ -5,16 +5,19 @@ import {BORDER_RADIUS} from '../../../theme/boderRadius';
 import {BUTTON_SIZES} from '../../../theme/button';
 import font from '../../../theme/font';
 import fontsFamily from '../../../theme/fontsFamily';
-const Style = StyleSheet.create({
+
+export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.primary,
   },
+
+  /* ─────────────── Splash logo ─────────────── */
   topSection: {
     marginVertical: theme.responsive.margin(80),
     width: theme.responsive.width(190),
     height: theme.responsive.height(190),
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
     borderRadius: theme.responsive.borderRadius(100),
     alignItems: 'center',
     justifyContent: 'center',
@@ -24,56 +27,67 @@ const Style = StyleSheet.create({
     width: theme.responsive.width(199),
     height: theme.responsive.height(171),
     resizeMode: 'contain',
-    alignSelf: 'center',
   },
+
+  /* ─────────────── Form panel ─────────────── */
   formSection: {
-    marginTop: theme.responsive.margin(78),
+    marginTop: theme.responsive.margin(60), // was absolute; now flow layout
     backgroundColor: COLORS.white,
     borderTopLeftRadius: theme.responsive.borderRadius(BORDER_RADIUS.CIRCLE),
     borderTopRightRadius: theme.responsive.borderRadius(BORDER_RADIUS.CIRCLE),
     width: theme.responsive.width(360),
     padding: theme.responsive.padding(10),
     alignItems: 'center',
-    position: 'relative',
-    bottom: 0,
     alignSelf: 'center',
+    position: 'absolute',
+    bottom: 0,
   },
-  inputContainer: {
-    marginTop: theme.responsive.margin(20),
-  },
+
   buttonContainer: {
     marginTop: theme.responsive.margin(30),
   },
-  forgotPassword: {
-    color: '#EF3CA6',
-    fontSize: theme.responsive.fontSize(10),
+
+  /* ─────────────── OTP input row ─────────────── */
+  otpInputRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  otpInput: {
+    width: theme.responsive.width(40),
+    height: theme.responsive.height(48),
+    borderColor: COLORS.primary,
+    borderWidth: 2,
+    borderRadius: theme.responsive.borderRadius(BORDER_RADIUS.MEDIUM),
+    textAlign: 'center',
+    color: COLORS.black,
     fontFamily: fontsFamily.medium,
-    fontWeight: '400',
-    marginTop: theme.responsive.margin(15),
+    fontSize: theme.responsive.fontSize(13),
+    margin: theme.responsive.margin(10),
   },
 
-  orText: {
-    marginVertical: theme.responsive.margin(10),
-    color: '#EF3CA6',
-    fontSize: theme.responsive.fontSize(10),
-    fontFamily: fontsFamily.medium,
-    fontWeight: '400',
+  text: {
+    color: COLORS.primary,
+    fontFamily: fontsFamily.bold,
+    fontSize: theme.responsive.fontSize(font.SMALL),
+    fontWeight: '600',
   },
-  createButton: {
-    backgroundColor: '#f484c3',
-    width: theme.responsive.width(250),
-    height: theme.responsive.height(BUTTON_SIZES.DEFAULT),
-    borderRadius: theme.responsive.borderRadius(BORDER_RADIUS.CIRCLE),
-    alignItems: 'center',
+
+  showContainer: {
+    alignSelf: 'flex-start',
+    padding: theme.responsive.padding(5),
+    marginLeft: theme.responsive.margin(40),
+    marginTop: theme.responsive.margin(10),
+  },
+  /* ─────────────── Misc ─────────────── */
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'center',
-    elevation: 2,
+    alignItems: 'center',
   },
-  createText: {
+  label: {
     color: COLORS.white,
     fontFamily: fontsFamily.medium,
-    fontWeight: '400',
-    fontSize: theme.responsive.fontSize(font.SMALL),
+    fontSize: theme.responsive.fontSize(10),
   },
 });
-
-export default Style;

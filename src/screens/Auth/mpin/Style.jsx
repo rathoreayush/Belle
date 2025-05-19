@@ -76,15 +76,16 @@ const Style = StyleSheet.create({
   },
   otpInput: {
     width: theme.responsive.width(40),
-    height: theme.responsive.height(42),
+    height: theme.responsive.height(48),
     borderColor: COLORS.primary,
     borderWidth: 2,
     borderRadius: theme.responsive.borderRadius(BORDER_RADIUS.MEDIUM),
     textAlign: 'center',
+
     color: COLORS.black,
     fontFamily: fontsFamily.medium,
     fontWeight: '400',
-    fontSize: theme.responsive.fontSize(font.SMALL),
+    fontSize: theme.responsive.fontSize(13),
     margin: theme.responsive.margin(10),
   },
 });

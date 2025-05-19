@@ -6,16 +6,20 @@ buildscript {
         targetSdkVersion = 34         // Updated from 35
         ndkVersion = "27.1.12297006"
         kotlinVersion = "2.0.21"      // This should match your Kotlin plugin version
+              
+
     }
     repositories {
         google()
         mavenCentral()
+    
     }
     dependencies {
         classpath("com.android.tools.build:gradle:8.2.2") // Added explicit version
         classpath("com.facebook.react:react-native-gradle-plugin:0.79.2") // Added version
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion") // Use variable
+        
     }
 }
+
 
 apply plugin: "com.facebook.react.rootproject"

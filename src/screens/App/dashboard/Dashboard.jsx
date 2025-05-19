@@ -1,5 +1,5 @@
 import {View, Text, SafeAreaView, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Style from './Style';
 import UserLogo from 'assets/images/user.png';
 import Notification from 'assets/images/notification.png';
@@ -14,7 +14,11 @@ import Profile from 'assets/images/avtar.png';
 import Feedback from 'assets/images/reward.png';
 import Scan from 'assets/images/scan.png';
 import Carousel from 'components/carousel/carousel';
+import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 const Dashboard = () => {
+  const navigation = useNavigation();
+  const {user} = useSelector(state => state.auth);
   return (
     <SafeAreaView style={Style.screenContainer}>
       <View style={Style.topCurve}>
@@ -24,10 +28,12 @@ const Dashboard = () => {
               flexDirection: 'row',
               alignItems: 'center',
             }}>
-            <Image source={UserLogo} style={Style.userIcon} />
+            <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
+              <Image source={UserLogo} style={Style.userIcon} />
+            </TouchableOpacity>
             <View>
               <Text style={Style.title}>Welcome Back !</Text>
-              <Text style={Style.subTitle}>Ajay Kumar</Text>
+              <Text style={Style.subTitle}>{user?.name}</Text>
             </View>
           </View>
           <TouchableOpacity>
@@ -42,7 +48,9 @@ const Dashboard = () => {
             </Text>
           </View>
           <View style={Style.rewardContainer}>
-            <Text style={Style.rewardContainerCount}>84688</Text>
+            <Text style={Style.rewardContainerCount}>
+              {user?.point_balance}
+            </Text>
             <Text style={Style.rewardContainerText}>Reward Points</Text>
           </View>
         </View>
@@ -53,12 +61,23 @@ const Dashboard = () => {
       <View style={Style.actionButtonsContainer}>
         <View style={Style.actionButtons}>
           {[
-            {label: 'Redeem Points', img: REDMELOGO},
-            {label: 'Reward History', img: REWARDLOGO},
-            {label: 'All Catalogue', img: CATALOGUELOGO},
-            {label: 'Media', img: MEDIALOGO},
+            {label: 'Redeem Points', img: REDMELOGO, route: 'RewardHistory'},
+            {label: 'Reward History', img: REWARDLOGO, route: 'RewardHistory'},
+            {
+              label: 'All Catalogue',
+              img: CATALOGUELOGO,
+              route: 'RewardHistory',
+            },
+            {label: 'Media', img: MEDIALOGO, route: 'RewardHistory'},
           ].map((btn, index) => (
-            <TouchableOpacity key={index} style={Style.actionCard}>
+            <TouchableOpacity
+              key={index}
+              style={Style.actionCard}
+              onPress={() => {
+                if (btn.route) {
+                  navigation.navigate(btn.route);
+                }
+              }}>
               <Image source={btn.img} style={Style.cardImg} />
               <View style={Style.actionLabelContainer}>
                 <Text style={Style.actionLabel}>{btn.label}</Text>
@@ -77,9 +96,12 @@ const Dashboard = () => {
           <Image source={Feedback} style={Style.tabLogo} />
           <Text style={Style.navLabel}>Feedback</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={Style.scanButton}>
+        <TouchableOpacity
+          style={Style.scanButton}
+          onPress={() => navigation.navigate('Scanner')}>
           <Image source={Scan} style={Style.scanLogo} />
         </TouchableOpacity>
+
         <TouchableOpacity style={Style.navItem}>
           <Image source={Report} style={Style.tabLogo} />
           <Text style={Style.navLabel}>Report Issue</Text>

@@ -10,19 +10,28 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^2.1.2",
     "@react-native-vector-icons/evil-icons": "^12.0.0",
     "@react-native-vector-icons/fontawesome6": "^12.0.0",
+    "@react-navigation/drawer": "^7.3.12",
     "@react-navigation/elements": "^2.4.1",
     "@react-navigation/native": "^7.1.8",
     "@react-navigation/native-stack": "^7.3.12",
     "@reduxjs/toolkit": "^2.8.2",
     "axios": "^1.9.0",
+    "node": "^20.19.2",
     "react": "19.0.0",
     "react-native": "0.79.2",
+    "react-native-device-info": "^14.0.4",
     "react-native-dotenv": "^3.4.11",
+    "react-native-gesture-handler": "^2.25.0",
+    "react-native-reanimated": "^3.17.5",
     "react-native-safe-area-context": "^5.4.0",
     "react-native-screens": "^4.10.0",
+    "react-native-svg": "^15.12.0",
+    "react-native-toast-message": "^2.3.0",
     "react-native-vector-icons": "^10.2.0",
+    "react-native-vision-camera": "^4.6.4",
     "react-redux": "^9.2.0"
   },
   "devDependencies": {

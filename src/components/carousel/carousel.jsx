@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, Image, Animated} from 'react-native';
 import {CarouselData} from 'constants/carouselData';
-
 import Style from './style';
 
 const Carousel = () => {
