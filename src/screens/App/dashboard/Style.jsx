@@ -72,12 +72,13 @@ const Style = StyleSheet.create({
     fontSize: theme.responsive.fontSize(font.SMALL),
   },
   rewardContainer: {
-    width: theme.responsive.width(120),
+    width: theme.responsive.width(130),
     height: theme.responsive.height(70),
     backgroundColor: '#f5a6d4',
     borderRadius: theme.responsive.borderRadius(BORDER_RADIUS.CIRCLE),
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row',
   },
   rewardContainerCount: {
     color: COLORS.white,
@@ -87,8 +88,17 @@ const Style = StyleSheet.create({
   },
   rewardContainerText: {
     color: COLORS.primary,
-    fontFamily: fontsFamily.bold,
+    fontFamily: fontsFamily.medium,
     fontSize: theme.responsive.fontSize(10),
+  },
+  coin: {
+    backgroundColor: COLORS.primary,
+    borderRadius: theme.responsive.borderRadius(BORDER_RADIUS.CIRCLE),
+    width: theme.responsive.width(35),
+    height: theme.responsive.height(35),
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: theme.responsive.margin(2),
   },
   sectionContainer: {
     flexDirection: 'row',

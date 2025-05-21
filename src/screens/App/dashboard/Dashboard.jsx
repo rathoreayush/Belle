@@ -13,6 +13,7 @@ import Report from 'assets/images/help.png';
 import Profile from 'assets/images/avtar.png';
 import Feedback from 'assets/images/reward.png';
 import Scan from 'assets/images/scan.png';
+import Coin from 'assets/images/coin.png';
 import Carousel from 'components/carousel/carousel';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
@@ -48,10 +49,15 @@ const Dashboard = () => {
             </Text>
           </View>
           <View style={Style.rewardContainer}>
-            <Text style={Style.rewardContainerCount}>
-              {user?.point_balance}
-            </Text>
-            <Text style={Style.rewardContainerText}>Reward Points</Text>
+            <View style={Style.coin}>
+              <Image source={Coin} />
+            </View>
+            <View>
+              <Text style={Style.rewardContainerCount}>
+                {user?.point_balance}
+              </Text>
+              <Text style={Style.rewardContainerText}>Reward Points</Text>
+            </View>
           </View>
         </View>
         <View style={Style.carousel}>

@@ -118,7 +118,7 @@ export default function Scanner() {
         setTimeout(() => navigation.navigate('Dashboard'), 3000);
       } else {
         setScannedData(null);
-        setResultMsg(response?.message || 'Invalid QR code');
+        setResultMsg(response?.message);
         setTimeout(() => navigation.navigate('Dashboard'), 3000);
       }
     } catch (e) {

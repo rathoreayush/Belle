@@ -18,6 +18,10 @@ const Style = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  icon: {
+    width: theme.responsive.width(30),
+    height: theme.responsive.height(30),
+  },
   nameText: {
     color: COLORS.white,
     fontSize: theme.responsive.fontSize(10),

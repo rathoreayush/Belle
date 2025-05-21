@@ -34,7 +34,8 @@ const Style = StyleSheet.create({
     marginTop: theme.responsive.margin(20),
   },
   cardContainer: {
-    padding: theme.responsive.padding(20),
+    // padding: theme.responsive.padding(1),
+    marginTop: theme.responsive.margin(20),
   },
 
   card: {
