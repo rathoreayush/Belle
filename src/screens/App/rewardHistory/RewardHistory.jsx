@@ -6,30 +6,55 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Style from './Style';
 import UserLogo from 'assets/images/user.png';
 import backLogo from 'assets/images/back-arrow.png';
 import Notification from 'assets/images/notification.png';
 import {useNavigation} from '@react-navigation/native';
+import {postWithHeader} from '../../../services/api';
+import Endpoint from '../../../api/endpoints';
+import {useSelector} from 'react-redux';
+import Loader from '../../../components/loader/loder';
+import ErrorScreen from '../../../components/error/Error';
 const RewardHistory = () => {
   const navigation = useNavigation();
+  const {user} = useSelector(state => state.auth);
   const [activeTab, setActiveTab] = useState('all');
-  const transactionData = [
-    {id: '1', points: 76, type: 'earned'},
-    {id: '2', points: 76, type: 'earned'},
-    {id: '3', points: -32, type: 'redeemed'},
-    {id: '4', points: -76, type: 'redeemed'},
-    {id: '5', points: 76, type: 'earned'},
-    {id: '6', points: 76, type: 'earned'},
-    {id: '7', points: -76, type: 'redeemed'},
-    {id: '8', points: 76, type: 'earned'},
-  ];
+  const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [rewardData, setRewardData] = useState([]);
+  console.log(user?.id);
 
-  const filteredData = transactionData.filter(item => {
-    if (activeTab === 'all') return true;
-    return item.type === activeTab;
-  });
+  useEffect(() => {
+    getRewardData();
+  }, []);
+  const getRewardData = async () => {
+    setError(false);
+    setLoading(true);
+    try {
+      const response = await postWithHeader(`${Endpoint.rewardHistory}`, {
+        user_id: user?.id,
+      });
+      console.log(response);
+      if (response.status === true) {
+        setRewardData(response?.reward_history);
+      } else {
+        setRewardData([]);
+      }
+    } catch (e) {
+      console.log(e);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filteredData = Array.isArray(rewardData)
+    ? rewardData.filter(item =>
+        activeTab === 'all' ? true : item.type === activeTab,
+      )
+    : [];
 
   const renderItem = ({item}) => {
     const isPositive = item.points > 0;
@@ -86,39 +111,49 @@ const RewardHistory = () => {
             <Image source={UserLogo} style={Style.userIcon} />
             <View>
               <Text style={Style.title}>Welcome Back !</Text>
-              <Text style={Style.subTitle}>Ajay Kumar</Text>
+              <Text style={Style.subTitle}>{user?.name}</Text>
             </View>
           </View>
           <View style={Style.rewardContainer}>
-            <Text style={Style.rewardContainerCount}>84688</Text>
+            <Text style={Style.rewardContainerCount}>
+              {user?.point_balance}
+            </Text>
             <Text style={Style.rewardContainerText}>Reward Points</Text>
           </View>
         </View>
       </View>
+      {isLoading ? (
+        <Loader />
+      ) : error ? (
+        <ErrorScreen onRetry={getRewardData} />
+      ) : (
+        <>
+          <View style={Style.tabs}>
+            {['all', 'earned', 'redeemed'].map(tab => (
+              <TouchableOpacity key={tab} onPress={() => setActiveTab(tab)}>
+                <Text
+                  style={[
+                    Style.tabItem,
+                    activeTab === tab && Style.activeTab,
+                    activeTab === tab && {color: '#fff', fontWeight: '700'},
+                  ]}>
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+          {/* Transactions */}
+          <FlatList
+            data={filteredData}
+            renderItem={renderItem}
+            keyExtractor={item => item.transaction_id}
+            contentContainerStyle={Style.listContent}
+            showsVerticalScrollIndicator={true} // ✅ show scrollbar
+            style={{scrollbarColor: 'black'}} //
+          />
+        </>
+      )}
       {/* Tabs */}
-      <View style={Style.tabs}>
-        {['all', 'earned', 'redeemed'].map(tab => (
-          <TouchableOpacity key={tab} onPress={() => setActiveTab(tab)}>
-            <Text
-              style={[
-                Style.tabItem,
-                activeTab === tab && Style.activeTab,
-                activeTab === tab && {color: '#fff', fontWeight: '700'},
-              ]}>
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-      {/* Transactions */}
-      <FlatList
-        data={filteredData}
-        renderItem={renderItem}
-        keyExtractor={item => item.id}
-        contentContainerStyle={Style.listContent}
-        showsVerticalScrollIndicator={true} // ✅ show scrollbar
-        style={{scrollbarColor: 'black'}} //
-      />
     </SafeAreaView>
   );
 };

@@ -21,7 +21,8 @@ import {useDispatch} from 'react-redux';
 import {setCredentials} from '../../../redux/slice/authSlice';
 import {saveAuthData} from '../../../utils/authHelper';
 
-const NewRegistration = () => {
+const NewRegistration = ({role}) => {
+  console.log('role', role);
   const navigation = useNavigation();
   const dispatch = useDispatch();
   /* ───── one‑time refs array ─────────────── */
@@ -194,6 +195,19 @@ const NewRegistration = () => {
                 disabled={!isValidMobile || isLoading}
               />
             </View>
+            {role === 4 ? (
+              <>
+                <View style={Style.orContainer}>
+                  <Text style={Style.orText}>Or,</Text>
+                </View>
+                <View style={Style.buttonContainer}>
+                  <Button
+                    label="Register Now"
+                    onPress={() => navigation.navigate('Registration')}
+                  />
+                </View>
+              </>
+            ) : null}
           </>
         )}
 

@@ -88,6 +88,14 @@ const Style = StyleSheet.create({
     fontSize: theme.responsive.fontSize(13),
     margin: theme.responsive.margin(10),
   },
+  orContainer: {
+    marginTop: theme.responsive.margin(20),
+  },
+  orText: {
+    color: COLORS.black,
+    fontFamily: fontsFamily.medium,
+    fontSize: theme.responsive.fontSize(12),
+  },
 });
 
 export default Style;

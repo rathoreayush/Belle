@@ -207,6 +207,9 @@ const Style = StyleSheet.create({
     borderTopLeftRadius: theme.responsive.borderRadius(25),
     borderTopRightRadius: theme.responsive.borderRadius(25),
   },
+  marginTop: {
+    marginTop: theme.responsive.margin(220),
+  },
 });
 
 export default Style;

@@ -2,11 +2,9 @@ import React from 'react';
 import {
   View,
   Text,
-  Switch,
   Image,
   TouchableOpacity,
   Pressable,
-  StyleSheet,
   ScrollView,
 } from 'react-native';
 import {DrawerContentScrollView} from '@react-navigation/drawer';
@@ -23,21 +21,29 @@ import CatLogo from 'assets/images/drawer3.png';
 import MediaLogo from 'assets/images/drawermedia.png';
 import ContactLogo from 'assets/images/drawercontact.png';
 import HowLogo from 'assets/images/howit.png';
+import backLogo from 'assets/images/back-arrow.png';
+import {UserRoles} from '../../constants/role';
 // navigation now comes from props
 const DrawerMenu = ({
   navigation,
-  togglePush = false,
-  onTogglePush = () => {},
+  // togglePush = false,
+  // onTogglePush = () => {},
 }) => {
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.auth);
+
   const handleLogout = () => {
     dispatch(logout()); // clear auth state
   };
   const MenuItem = ({label, Icon, screen}) => (
     <Pressable style={Style.item} onPress={() => navigation.navigate(screen)}>
-      <Image source={Icon} style={Style.icon} />
-      <Text style={Style.label}>{label}</Text>
+      <View style={Style.profileContainer}>
+        <Image source={Icon} style={Style.icon} />
+        <Text style={Style.label}>{label}</Text>
+      </View>
+      <View>
+        <Image source={backLogo} style={Style.backIcon} />
+      </View>
     </Pressable>
   );
 
@@ -66,14 +72,23 @@ const DrawerMenu = ({
             screen="RewardHistory"
             Icon={ProfileLogo}
           />
-          <MenuItem label="Scan History" screen="ScanHistory" Icon={ScanLogo} />
-          <MenuItem
-            label="Reward History"
-            screen="RewardHistory"
-            Icon={RewardLogo}
-          />
+          {(user?.role_id === UserRoles.DISTRIBUTOR ||
+            user?.role_id === UserRoles.RETAILER) && (
+            <>
+              <MenuItem
+                label="Scan History"
+                screen="ScanHistory"
+                Icon={ScanLogo}
+              />
+              <MenuItem
+                label="Reward History"
+                screen="RewardHistory"
+                Icon={RewardLogo}
+              />
+            </>
+          )}
           <MenuItem label="Scheme" screen="Scheme" Icon={SchemeLogo} />
-          <MenuItem label="Catalogue" screen="RewardHistory" Icon={CatLogo} />
+          <MenuItem label="Catalogue" screen="Catalogue" Icon={CatLogo} />
           <MenuItem label="Media" screen="RewardHistory" Icon={MediaLogo} />
 
           <MenuItem
@@ -89,18 +104,18 @@ const DrawerMenu = ({
 
           {/* Other section */}
           <Text style={Style.section}>OTHER</Text>
-          <MenuItem label="About Ticketis" screen="RewardHistory" />
+
           <MenuItem label="Privacy Policy" screen="RewardHistory" />
           <MenuItem label="Terms and Conditions" screen="RewardHistory" />
 
           {/* Push notification toggle */}
-          <View style={[Style.item, {justifyContent: 'space-between'}]}>
+          {/* <View style={[Style.item, {justifyContent: 'space-between'}]}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              {/* <Shield size={22} strokeWidth={1.8} color="#000" /> */}
+              <Shield size={22} strokeWidth={1.8} color="#000" />
               <Text style={Style.label}>Push Notification</Text>
             </View>
             <Switch value={togglePush} onValueChange={onTogglePush} />
-          </View>
+          </View> */}
           {/* Sign‑out button */}
           <Pressable style={Style.signOut} onPress={handleLogout}>
             {/* <LogOut size={20} color="#fff" style={{marginRight: 6}} /> */}

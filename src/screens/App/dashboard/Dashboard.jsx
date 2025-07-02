@@ -17,6 +17,7 @@ import Coin from 'assets/images/coin.png';
 import Carousel from 'components/carousel/carousel';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
+import {UserRoles} from '../../../constants/role';
 const Dashboard = () => {
   const navigation = useNavigation();
   const {user} = useSelector(state => state.auth);
@@ -64,17 +65,39 @@ const Dashboard = () => {
           <Carousel />
         </View>
       </View>
-      <View style={Style.actionButtonsContainer}>
+      <View
+        style={[
+          user?.role_id === UserRoles.SALES_TEAM
+            ? Style.marginTop
+            : Style.actionButtonsContainer,
+        ]}>
         <View style={Style.actionButtons}>
           {[
-            {label: 'Redeem Points', img: REDMELOGO, route: 'RewardHistory'},
-            {label: 'Reward History', img: REWARDLOGO, route: 'RewardHistory'},
+            ...(user?.role_id === UserRoles.DISTRIBUTOR ||
+            user?.role_id === UserRoles.RETAILER
+              ? [
+                  {
+                    label: 'Redeem Points',
+                    img: REDMELOGO,
+                    route: 'RedeemPoint',
+                  },
+                  {
+                    label: 'Reward History',
+                    img: REWARDLOGO,
+                    route: 'RewardHistory',
+                  },
+                ]
+              : []),
             {
               label: 'All Catalogue',
               img: CATALOGUELOGO,
+              route: 'Catalogue',
+            },
+            {
+              label: 'Media',
+              img: MEDIALOGO,
               route: 'RewardHistory',
             },
-            {label: 'Media', img: MEDIALOGO, route: 'RewardHistory'},
           ].map((btn, index) => (
             <TouchableOpacity
               key={index}
@@ -102,17 +125,22 @@ const Dashboard = () => {
           <Image source={Feedback} style={Style.tabLogo} />
           <Text style={Style.navLabel}>Feedback</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={Style.scanButton}
-          onPress={() => navigation.navigate('Scanner')}>
-          <Image source={Scan} style={Style.scanLogo} />
-        </TouchableOpacity>
+        {(user?.role_id === UserRoles.DISTRIBUTOR ||
+          user?.role_id === UserRoles.RETAILER) && (
+          <TouchableOpacity
+            style={Style.scanButton}
+            onPress={() => navigation.navigate('Scanner')}>
+            <Image source={Scan} style={Style.scanLogo} />
+          </TouchableOpacity>
+        )}
 
         <TouchableOpacity style={Style.navItem}>
           <Image source={Report} style={Style.tabLogo} />
           <Text style={Style.navLabel}>Report Issue</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={Style.navItem}>
+        <TouchableOpacity
+          style={Style.navItem}
+          onPress={() => navigation.navigate('Profile')}>
           <Image source={Profile} style={Style.tabLogo} />
           <Text style={Style.navLabel}>Profile</Text>
         </TouchableOpacity>

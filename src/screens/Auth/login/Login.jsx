@@ -28,7 +28,8 @@ import {saveAuthData} from '../../../utils/authHelper';
 
 const Loader = () => <ActivityIndicator size="large" color="#EF3CA6" />;
 
-const LoginScreen = () => {
+const LoginScreen = ({route}) => {
+  const {role} = route?.params ?? {};
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
@@ -130,7 +131,7 @@ const LoginScreen = () => {
       {error ? (
         <ErrorScreen onRetry={checkMPIN} />
       ) : !mpinCreated ? (
-        <NewRegistration />
+        <NewRegistration role={role} />
       ) : (
         /* KEYBOARD‑AWARE WRAPPER */
         <KeyboardAvoidingView

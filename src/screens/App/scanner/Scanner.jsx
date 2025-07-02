@@ -27,12 +27,14 @@ import Endpoint from '../../../api/endpoints';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
 import {showErrorToast, showSuccessToast} from '../../../utils/toastMessage';
 import {useSelector} from 'react-redux';
+import {UserRoles} from '../../../constants/role';
 const {width, height} = Dimensions.get('window');
 const SCANNER_SIZE = width * 0.7;
 
 export default function Scanner() {
   const navigation = useNavigation();
   const {user} = useSelector(state => state.auth);
+
   const [permission, setPermission] = useState(false);
   const [scannedData, setScannedData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -107,12 +109,17 @@ export default function Scanner() {
     setResultMsg(null);
     setIsProcessing(true);
 
+    const url =
+      user.role_id === UserRoles.DISTRIBUTOR
+        ? Endpoint.returnScan
+        : user.role_id === UserRoles.RETAILER
+        ? Endpoint.qrCodeScan
+        : null;
     try {
-      const response = await postWithHeader(`${Endpoint.qrCodeScan}`, {
+      const response = await postWithHeader(url, {
         qrcodeid: qrData,
         user_id: user?.id,
       });
-      console.log(response);
       if (response.status === true) {
         setResultMsg(response?.message);
         setTimeout(() => navigation.navigate('Dashboard'), 3000);
@@ -121,8 +128,7 @@ export default function Scanner() {
         setResultMsg(response?.message);
         setTimeout(() => navigation.navigate('Dashboard'), 3000);
       }
-    } catch (e) {
-      // showErrorToast('Something went wrong. Please try again.');
+    } catch {
       setScannedData(null);
       setResultMsg('Something went wrong. Please try again.');
       setTimeout(() => navigation.navigate('Dashboard'), 3000);

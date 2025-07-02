@@ -14,6 +14,7 @@ import logoReatailer from 'assets/images/icon02.png';
 import saleTeam from 'assets/images/icon03.png';
 import Style from './Style';
 import {useNavigation} from '@react-navigation/native';
+import {UserRoles} from '../../../constants/role';
 const Onboard = () => {
   const navigation = useNavigation();
   return (
@@ -33,7 +34,9 @@ const Onboard = () => {
         <View style={Style.cardContainer}>
           <TouchableOpacity
             style={Style.card}
-            onPress={() => navigation.navigate('Login')}>
+            onPress={() =>
+              navigation.navigate('Login', {role: UserRoles.DISTRIBUTOR})
+            }>
             <Text style={Style.cardText}>DISTRIBUTOR</Text>
             <Image
               source={logoFirst}
@@ -45,7 +48,9 @@ const Onboard = () => {
         <View style={Style.cardContainer}>
           <TouchableOpacity
             style={Style.card}
-            onPress={() => navigation.navigate('Login')}>
+            onPress={() =>
+              navigation.navigate('Login', {role: UserRoles.RETAILER})
+            }>
             <Text style={Style.cardText}>RETAILER</Text>
             <Image
               source={saleTeam}
@@ -58,7 +63,9 @@ const Onboard = () => {
         <View style={Style.cardContainer}>
           <TouchableOpacity
             style={Style.card}
-            onPress={() => navigation.navigate('Login')}>
+            onPress={() =>
+              navigation.navigate('Login', {role: UserRoles.SALES_TEAM})
+            }>
             <Text style={Style.cardText}>SALES TEAM</Text>
             <Image
               source={logoReatailer}

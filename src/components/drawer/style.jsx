@@ -22,6 +22,11 @@ const Style = StyleSheet.create({
     width: theme.responsive.width(30),
     height: theme.responsive.height(30),
   },
+  backIcon: {
+    width: theme.responsive.width(16),
+    height: theme.responsive.height(16),
+    transform: [{rotate: '180deg'}],
+  },
   nameText: {
     color: COLORS.white,
     fontSize: theme.responsive.fontSize(10),
@@ -60,9 +65,14 @@ const Style = StyleSheet.create({
     color: COLORS.white,
     fontFamily: fontsFamily.bold,
   },
+  profileContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   item: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     paddingVertical: theme.responsive.padding(10),
     paddingHorizontal: theme.responsive.padding(24),
   },

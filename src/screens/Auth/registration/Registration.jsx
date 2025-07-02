@@ -13,17 +13,73 @@ import CustomTextInput from '../../../components/textInput/textInput';
 import Button from '../../../components/button/button';
 import BackButton from '../../../components/backButton/backButton';
 import {useNavigation} from '@react-navigation/native';
+import {postWithHeader} from '../../../services/api';
+import Endpoint from '../../../api/endpoints';
+import Loader from '../../../components/loader/loder';
+import {showErrorToast} from '../../../utils/toastMessage';
 
 const Registration = () => {
   const navigation = useNavigation();
-  const [currentStep, setCurrentStep] = useState(0);
-  const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
-  // Step components as functions (not JSX directly)
-  const steps = [() => <StepOne />, () => <StepTwo />, () => <StepThree />];
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: null,
+    email: null,
+    phone: null,
+    gender: null,
+    dob: null,
+    parent_id: 1,
+  });
 
-  const nextStep = () => setCurrentStep(prev => prev + 1);
-  const prevStep = () => setCurrentStep(prev => prev - 1);
+  const formValidation = formData => {
+    const errors = {};
+
+    if (!formData.name || formData.name.trim() === '') {
+      errors.name = 'Name is required';
+    }
+
+    if (!formData.email || formData.email.trim() === '') {
+      errors.email = 'Email is required';
+    }
+
+    if (!formData.phone || formData.phone.trim() === '') {
+      errors.phone = 'Phone number is required';
+    }
+
+    if (!formData.gender || formData.gender.trim() === '') {
+      errors.gender = 'Gender is required';
+    }
+
+    const dobRegex = /^\d{2}-\d{2}-\d{4}$/;
+    if (!formData.dob || !dobRegex.test(formData.dob)) {
+      errors.dob = 'DOB must be in dd-mm-yyyy format';
+    }
+
+    return errors;
+  };
+
+  const handleSubmit = async () => {
+    const errors = formValidation(formData);
+
+    if (Object.keys(errors).length > 0) {
+      showErrorToast(Object.values(errors).join('\n'));
+      return;
+    }
+    console.log(`${Endpoint.userRegistration}`, {
+      formData,
+    });
+    setLoading(true);
+    try {
+      const response = await postWithHeader(`${Endpoint.userRegistration}`, {
+        formData,
+      });
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <SafeAreaView style={Style.screenContainer}>
@@ -40,20 +96,95 @@ const Registration = () => {
           </View>
         </View>
 
-        <View style={Style.stepperContainer}>{steps[currentStep]()}</View>
+        <View style={Style.stepperContainer}>
+          <View style={Style.infoTextContainer}>
+            <Text style={Style.infoText}>Basic Information</Text>
+          </View>
+          <View style={Style.inputContainer}>
+            <CustomTextInput
+              placeholder="Name"
+              onChangeText={text => {
+                setFormData({
+                  ...formData,
+                  name: text,
+                });
+              }}
+            />
+          </View>
+          <View style={Style.inputContainer}>
+            <CustomTextInput
+              placeholder="Email Address"
+              onChangeText={text => {
+                setFormData({
+                  ...formData,
+                  email: text,
+                });
+              }}
+            />
+          </View>
+          <View style={Style.inputContainer}>
+            <CustomTextInput
+              placeholder="Phone Number"
+              keyboardType="numeric"
+              onChangeText={text => {
+                setFormData({
+                  ...formData,
+                  phone: text,
+                });
+              }}
+            />
+          </View>
+          <View style={Style.inputContainer}>
+            <CustomTextInput
+              placeholder="Gender"
+              onChangeText={text => {
+                setFormData({
+                  ...formData,
+                  gender: text,
+                });
+              }}
+            />
+          </View>
+          <View style={Style.inputContainer}>
+            <CustomTextInput
+              placeholder="Date of Birth (dd-mm-yyyy)"
+              keyboardType="numeric"
+              maxLength={10}
+              onChangeText={text => {
+                // Remove all non-digit characters
+                const cleaned = text.replace(/\D+/g, '');
+
+                let formatted = cleaned;
+                if (cleaned.length >= 3 && cleaned.length <= 4) {
+                  formatted = `${cleaned.slice(0, 2)}-${cleaned.slice(2)}`;
+                } else if (cleaned.length > 4) {
+                  formatted = `${cleaned.slice(0, 2)}-${cleaned.slice(
+                    2,
+                    4,
+                  )}-${cleaned.slice(4, 8)}`;
+                }
+
+                setFormData({
+                  ...formData,
+                  dob: formatted,
+                });
+              }}
+              value={formData.dob}
+            />
+          </View>
+        </View>
 
         <View style={Style.buttonContainer}>
-          {currentStep < steps.length - 1 ? (
-            <Button label="Next" onPress={nextStep} />
+          {loading ? (
+            <Loader />
           ) : (
-            <Button label="Sign Up" onPress={() => console.log('Submitted')} />
+            <Button label="Sign Up" onPress={handleSubmit} />
           )}
-          {currentStep > 0 && <BackButton onPress={prevStep} />}
         </View>
 
         <View style={Style.signContainer}>
           <Text style={Style.signText}>Have an account ?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <Text style={Style.signText}> Sign In</Text>
           </TouchableOpacity>
         </View>
@@ -61,71 +192,5 @@ const Registration = () => {
     </SafeAreaView>
   );
 };
-
-const StepOne = () => (
-  <>
-    <View style={Style.infoTextContainer}>
-      <Text style={Style.infoText}>Basic Information</Text>
-    </View>
-    <View style={Style.inputContainer}>
-      <CustomTextInput placeholder="Full Name" />
-    </View>
-    <View style={Style.inputContainer}>
-      <CustomTextInput placeholder="Email Address" />
-    </View>
-    <View style={Style.inputContainer}>
-      <CustomTextInput placeholder="WhatsApp Number" />
-    </View>
-    <View style={Style.inputContainer}>
-      <CustomTextInput placeholder="Password" secureTextEntry />
-    </View>
-    <View style={Style.inputContainer}>
-      <CustomTextInput placeholder="Re - Enter Password" secureTextEntry />
-    </View>
-  </>
-);
-
-const StepTwo = () => (
-  <>
-    <View style={Style.infoTextContainer}>
-      <Text style={Style.infoText}>Shop Address Information</Text>
-    </View>
-    <View style={Style.inputContainer}>
-      <CustomTextInput placeholder="Shop Name" />
-    </View>
-    <View style={Style.inputContainer}>
-      <CustomTextInput placeholder="Shop Address" />
-    </View>
-    <View style={Style.inputContainer}>
-      <CustomTextInput placeholder="Distributor Firm Name" />
-    </View>
-    <View style={Style.inputContainer}>
-      <CustomTextInput placeholder="Salesperson's Name" />
-    </View>
-  </>
-);
-
-const StepThree = () => (
-  <>
-    <View style={Style.infoTextContainer}>
-      <Text style={Style.infoText}>Address Information</Text>
-    </View>
-    <View style={Style.inputContainer}>
-      <CustomTextInput placeholder="Pincode" keyboardType="numeric" />
-    </View>
-    <View style={Style.inputContainer}>
-      <CustomTextInput placeholder="State" />
-    </View>
-    <View style={Style.inputContainer}>
-      <CustomTextInput placeholder="District" />
-    </View>
-    <View style={Style.inputContainer}>
-      <CustomTextInput placeholder="City" />
-    </View>
-    <View style={Style.inputContainer}>
-      <CustomTextInput placeholder="Landmark" />
-    </View>
-  </>
-);
 
 export default Registration;
