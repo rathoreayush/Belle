@@ -5,6 +5,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Style from './Style';
@@ -24,6 +25,7 @@ const RewardHistory = () => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [rewardData, setRewardData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
   console.log(user?.id);
 
   useEffect(() => {
@@ -36,18 +38,23 @@ const RewardHistory = () => {
       const response = await postWithHeader(`${Endpoint.rewardHistory}`, {
         user_id: user?.id,
       });
-      console.log(response);
+      console.log('history response', response);
       if (response.status === true) {
         setRewardData(response?.reward_history);
       } else {
         setRewardData([]);
       }
     } catch (e) {
-      console.log(e);
       setError(true);
     } finally {
       setLoading(false);
     }
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await getRewardData();
+    setRefreshing(false);
   };
 
   const filteredData = Array.isArray(rewardData)
@@ -57,13 +64,13 @@ const RewardHistory = () => {
     : [];
 
   const renderItem = ({item}) => {
-    const isPositive = item.points > 0;
+    const isNegative = item.transaction_type === 'DEBIT';
     return (
       <View style={Style.transactionItem}>
         <View
           style={[
             Style.sideBar,
-            {backgroundColor: isPositive ? '#E42A93' : '#F2B343'},
+            {backgroundColor: isNegative ? '#E42A93' : '#F2B343'},
           ]}
         />
         <View style={Style.transactionContent}>
@@ -74,14 +81,14 @@ const RewardHistory = () => {
               justifyContent: 'space-between',
             }}>
             <Text style={Style.transactionText}>
-              {isPositive ? 'You have earned' : 'You have redeemed'}
+              {isNegative ? 'You have earned' : 'You have  redeemed'}
             </Text>
             <Text
               style={[
                 Style.pointText,
-                {color: isPositive ? '#E42A93' : '#F54291'},
+                {color: isNegative ? '#E42A93' : '#F54291'},
               ]}>
-              {isPositive ? '+' : ''}
+              {isNegative ? '-' : '+'}
               {item.points} <Text style={Style.pointsLabel}>Points</Text>
             </Text>
           </View>
@@ -150,6 +157,13 @@ const RewardHistory = () => {
             contentContainerStyle={Style.listContent}
             showsVerticalScrollIndicator={true} // ✅ show scrollbar
             style={{scrollbarColor: 'black'}} //
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                tintColor="#E42A93"
+              />
+            }
           />
         </>
       )}

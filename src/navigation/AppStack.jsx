@@ -9,6 +9,8 @@ import Scheme from 'screens/App/scheme/Scheme';
 import Profile from 'screens/App/profile/Profile';
 import RedeemPoint from '../screens/App/redeemPoint/RedeemPoint';
 import Catalogue from '../screens/App/catalogue/Catalogue';
+import ComingSoonScreen from '../screens/App/commingsoon/CommingSoon';
+import ReportIssue from '../screens/App/reportissue/ReportIssue';
 
 const Drawer = createDrawerNavigator();
 
@@ -30,6 +32,8 @@ export default function AppStack() {
       <Drawer.Screen name="Profile" component={Profile} />
       <Drawer.Screen name="RedeemPoint" component={RedeemPoint} />
       <Drawer.Screen name="Catalogue" component={Catalogue} />
+      <Drawer.Screen name="ComingSoonScreen" component={ComingSoonScreen} />
+      <Drawer.Screen name="ReportIssue" component={ReportIssue} />
     </Drawer.Navigator>
   );
 }

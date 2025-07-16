@@ -12,6 +12,8 @@ const Endpoint = {
   rewardHistory: 'reward/rewardhistory',
   redeemPoint: 'reward/productlist',
   catelogues: 'home/catelogues',
+  profileUpdate: 'profile/update',
+  reportIssue: 'home/reportissue',
 };
 
 export default Endpoint;

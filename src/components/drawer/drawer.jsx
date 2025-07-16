@@ -67,11 +67,7 @@ const DrawerMenu = ({
         showsVerticalScrollIndicator={true}
         style={Style.primaryMenuContainer}>
         <View style={Style.itemContainer}>
-          <MenuItem
-            label="My Profile"
-            screen="RewardHistory"
-            Icon={ProfileLogo}
-          />
+          <MenuItem label="My Profile" screen="Profile" Icon={ProfileLogo} />
           {(user?.role_id === UserRoles.DISTRIBUTOR ||
             user?.role_id === UserRoles.RETAILER) && (
             <>
@@ -89,24 +85,24 @@ const DrawerMenu = ({
           )}
           <MenuItem label="Scheme" screen="Scheme" Icon={SchemeLogo} />
           <MenuItem label="Catalogue" screen="Catalogue" Icon={CatLogo} />
-          <MenuItem label="Media" screen="RewardHistory" Icon={MediaLogo} />
+          <MenuItem label="Media" screen="ComingSoonScreen" Icon={MediaLogo} />
 
           <MenuItem
             label="Contact Us"
-            screen="RewardHistory"
+            screen="ComingSoonScreen"
             Icon={ContactLogo}
           />
           <MenuItem
             label="How it Works"
-            screen="RewardHistory"
+            screen="ComingSoonScreen"
             Icon={HowLogo}
           />
 
           {/* Other section */}
           <Text style={Style.section}>OTHER</Text>
 
-          <MenuItem label="Privacy Policy" screen="RewardHistory" />
-          <MenuItem label="Terms and Conditions" screen="RewardHistory" />
+          <MenuItem label="Privacy Policy" screen="ComingSoonScreen" />
+          <MenuItem label="Terms and Conditions" screen="ComingSoonScreen" />
 
           {/* Push notification toggle */}
           {/* <View style={[Style.item, {justifyContent: 'space-between'}]}>

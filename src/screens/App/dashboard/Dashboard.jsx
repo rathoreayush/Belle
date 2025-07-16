@@ -96,7 +96,7 @@ const Dashboard = () => {
             {
               label: 'Media',
               img: MEDIALOGO,
-              route: 'RewardHistory',
+              route: 'ComingSoonScreen',
             },
           ].map((btn, index) => (
             <TouchableOpacity
@@ -134,7 +134,9 @@ const Dashboard = () => {
           </TouchableOpacity>
         )}
 
-        <TouchableOpacity style={Style.navItem}>
+        <TouchableOpacity
+          style={Style.navItem}
+          onPress={() => navigation.navigate('ReportIssue')}>
           <Image source={Report} style={Style.tabLogo} />
           <Text style={Style.navLabel}>Report Issue</Text>
         </TouchableOpacity>

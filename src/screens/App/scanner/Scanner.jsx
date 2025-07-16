@@ -120,6 +120,7 @@ export default function Scanner() {
         qrcodeid: qrData,
         user_id: user?.id,
       });
+      console.log('code scan', response);
       if (response.status === true) {
         setResultMsg(response?.message);
         setTimeout(() => navigation.navigate('Dashboard'), 3000);
@@ -128,7 +129,8 @@ export default function Scanner() {
         setResultMsg(response?.message);
         setTimeout(() => navigation.navigate('Dashboard'), 3000);
       }
-    } catch {
+    } catch (e) {
+      console.log(e);
       setScannedData(null);
       setResultMsg('Something went wrong. Please try again.');
       setTimeout(() => navigation.navigate('Dashboard'), 3000);
